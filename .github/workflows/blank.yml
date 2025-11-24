@@ -26,4 +26,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Subir o docker compose 
-        run: docker compose --no-cache up -d 
+        run: |
+          docker compose build --no-cache
+          docker compose up -d 
