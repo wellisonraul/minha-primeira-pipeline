@@ -14,7 +14,7 @@ services:
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
 
   backend:
-    container_name: infnet_backend
+    #container_name: infnet_backend
     build: # Builds the backend API using the provided Dockerfile
       context: ./backend # Specifies the build context directory for the backend
       dockerfile: Dockerfile # Specifies the Dockerfile to use for building the backend
@@ -27,7 +27,7 @@ services:
       - db # Specifies that the 'api' service depends on the 'db' service
 
   frontend:
-    container_name: infnet_frontend
+    #container_name: infnet_frontend
     restart: on-failure # Restarts the container if it fails
     build: # Builds the frontend app using the provided Dockerfile
       context: ./frontend # Specifies the build context directory for the frontend
