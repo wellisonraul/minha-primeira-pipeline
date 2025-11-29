@@ -20,9 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # Acessível em todos os 'run:'
-      # Você pode incluir outras variáveis aqui, se necessário:
-      # API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -52,6 +50,10 @@ jobs:
 
   cd:
     runs-on: aws
+    needs: [ci]
+
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
     steps:
       - name: Login no Docker Hub
