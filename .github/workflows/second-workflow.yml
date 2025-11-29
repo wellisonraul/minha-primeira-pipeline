@@ -35,6 +35,8 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build o docker compose 
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           docker compose build --no-cache
 
