@@ -17,6 +17,7 @@ services:
     build: # Builds the backend API using the provided Dockerfile
       context: ./backend # Specifies the build context directory for the backend
       dockerfile: Dockerfile # Specifies the Dockerfile to use for building the backend
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/infnet_backend:latest
     ports:
       - 3000:3000 # Maps the container's port 3000 to the host's port 3000
     networks:
@@ -28,6 +29,7 @@ services:
     restart: on-failure # Restarts the container if it fails
     build: # Builds the frontend app using the provided Dockerfile
       context: ./frontend # Specifies the build context directory for the frontend
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/infnet_frontend:latest
     ports:
       - 3001:3000 # Maps the container's port 3000 to the host's port 3001
     networks:
