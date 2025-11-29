@@ -2,7 +2,6 @@ import "./App.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-//const URL = process.env.API_BASE_URL;
 const URL = "http://54.234.28.1:3000";
 
 
