@@ -7,7 +7,7 @@ services:
       - MYSQL_PASSWORD=pass123 # Sets the password for the MySQL user
       - MYSQL_ROOT_PASSWORD=pass123 # Sets the root password for MySQL
     networks:
-      - db # Connects the service to the 'sameNetworkAsMysql' network
+      - proxy # Connects the service to the 'sameNetworkAsMysql' network
     ports:
       - 3307:3306 # Maps the container's port 3306 to the host's port 3307
     volumes:
@@ -22,7 +22,7 @@ services:
     ports:
       - 3000:3000 # Maps the container's port 3000 to the host's port 3000
     networks:
-      - db # Connects the service to the 'sameNetworkAsMysql' network
+      - proxy # Connects the service to the 'sameNetworkAsMysql' network
     depends_on:
       - db # Specifies that the 'api' service depends on the 'db' service
 
@@ -35,10 +35,18 @@ services:
     ports:
       - 3001:3000 # Maps the container's port 3000 to the host's port 3001
     networks:
-      - db # Connects the service to the 'sameNetworkAsMysql' network
+      - proxy # Connects the service to the 'sameNetworkAsMysql' network
     depends_on:
       - backend # Specifies that the 'frontend' service depends on the 'api' service
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`infnet-devops.duckdns.orgr`)" 
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls=true"
+      - "traefik.http.routers.frontend.tls.certresolver=leresolver"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80" 
 
 networks:
-  db: # Defines the 'sameNetworkAsMysql' network
-    driver: bridge # Specifies the network driver as 'bridge'
+  proxy: # Defines the 'sameNetworkAsMysql' network
+    external: true 
+    #driver: bridge # Specifies the network driver as 'bridge'
