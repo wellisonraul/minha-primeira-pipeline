@@ -40,7 +40,7 @@ services:
       - backend # Specifies that the 'frontend' service depends on the 'api' service
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`infnet-devops.duckdns.org.br`)" 
+      - "traefik.http.routers.frontend.rule=Host(`infnet-devops.duckdns.org`)" 
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls=true"
       - "traefik.http.routers.frontend.tls.certresolver=leresolver"
