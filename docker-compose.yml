@@ -8,8 +8,8 @@ services:
       - MYSQL_ROOT_PASSWORD=pass123 # Sets the root password for MySQL
     networks:
       - proxy # Connects the service to the 'sameNetworkAsMysql' network
-    ports:
-      - 3307:3306 # Maps the container's port 3306 to the host's port 3307
+    expose:
+      - 3306 # Maps the container's port 3306 to the host's port 3307
     volumes:
       - ./script.sql:/docker-entrypoint-initdb.d/script.sql
 
@@ -19,12 +19,19 @@ services:
       context: ./backend # Specifies the build context directory for the backend
       dockerfile: Dockerfile # Specifies the Dockerfile to use for building the backend
     image: ${DOCKERHUB_USERNAME}/infnet_backend:latest
-    ports:
-      - 3000:3000 # Maps the container's port 3000 to the host's port 3000
+    expose:
+      - 3000 # Maps the container's port 3000 to the host's port 3000
     networks:
       - proxy # Connects the service to the 'sameNetworkAsMysql' network
     depends_on:
       - db # Specifies that the 'api' service depends on the 'db' service
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`infnet-devops-backend.duckdns.org`)" 
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.routers.backend.tls.certresolver=leresolver"
+      - "traefik.http.services.backend.loadbalancer.server.port=3000" 
 
   frontend:
     #container_name: infnet_frontend
@@ -32,8 +39,8 @@ services:
     build: # Builds the frontend app using the provided Dockerfile
       context: ./frontend # Specifies the build context directory for the frontend
     image: ${DOCKERHUB_USERNAME}/infnet_frontend:latest
-    ports:
-      - 3001:3000 # Maps the container's port 3000 to the host's port 3001
+    expose:
+      - 3000 # Maps the container's port 3000 to the host's port 3001
     networks:
       - proxy # Connects the service to the 'sameNetworkAsMysql' network
     depends_on:

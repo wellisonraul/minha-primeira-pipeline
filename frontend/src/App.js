@@ -2,7 +2,7 @@ import "./App.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-const URL = "http://107.22.72.29:3000";
+const URL = "https://infnet-devops-backend.duckdns.org";
 
 
 function App() {
